@@ -94,8 +94,25 @@ console.log(ryan.toString());
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-  
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
+Car.prototype.fill = function(gallons){
+  this.tank= this.tank + gallons;
+}
+Car.prototype.drive = function (distance){
+  const driveableMiles = this.milesPerGallon;
+  if(distance <= driveableMiles){
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - (distance / this.milesPerGallon);
+  }else{
+    this.odometer = this.odometer + this.driveableMiles; 
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles!`
+  }
 }
 
 
@@ -106,18 +123,33 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
- 
+function Baby(name, age, favoriteToy) {
+ Person.call(this, name, age);
+ this.favoriteToy = favoriteToy;
+}
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`
 }
 
+const landon = new Baby('Landon', 1, 'Calebs Toys');
+
+landon.eat('yogurt');
+landon.eat('applesauce');
+
+console.log("Task 3:",landon.stomach);
+landon.poop();
+console.log(landon.stomach);
+console.log(landon.toString());
+console.log(landon.play());
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. WINDOW BINDING: the default of where 'this' will send you. we dont want it. not good practice.
+  2. NEW BINDING: when using a constructor function and we use the word new, this is automatically bound to that new constructor.  
+  3. IMPLICIT BINDING: when it is implied that the 'this' keyword is connected to the item to the left of the dot.
+  4. EXPLICIT BINDING:when we explicitly connect the 'this' keyword to what we want it connected to and make it almost impossible to miss what it is bound to.
 */
 
 
